@@ -20,7 +20,7 @@ top_sql_statements:
 
 # 2. Top users by total execution time
 top_sql_users:
-  query: >
+  query: |
     SELECT usename, SUM(total_exec_time + total_plan_time) AS total_exec_time
     FROM pg_stat_statements
     JOIN pg_user ON pg_stat_statements.userid = pg_user.usesysid
@@ -36,7 +36,7 @@ top_sql_users:
         description: "Total execution time by user"
 # 3. Top client IPs by connection count
 top_clients:
-  query: >
+  query: |
     SELECT client_addr, COUNT(*) AS connections
     FROM pg_stat_activity
     WHERE client_addr IS NOT NULL
@@ -53,7 +53,7 @@ top_clients:
 
 # 4. Currently running queries by user and IP
 active_queries_by_user_ip:
-  query: >
+  query: |
     SELECT usename, client_addr, COUNT(*) as active_queries
     FROM pg_stat_activity
     WHERE state = 'active'
@@ -71,7 +71,7 @@ active_queries_by_user_ip:
 
 # 5. Query frequency (most called)
 frequent_sql:
-  query: >
+  query: |
     SELECT query, calls
     FROM pg_stat_statements
     ORDER BY calls DESC
