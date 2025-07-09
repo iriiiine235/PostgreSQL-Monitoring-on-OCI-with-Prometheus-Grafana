@@ -1,0 +1,85 @@
+# Custom PostgreSQL Query Metrics for Postgres Exporter
+
+#Top SQL statements
+top_sql_statements:
+  query: |
+    SELECT query, calls, total_exec_time + total_plan_time AS total_time
+    FROM pg_stat_statements
+    ORDER BY total_time DESC
+    LIMIT 5;
+  metrics:
+    - query:
+        usage: "LABEL"
+        description: "SQL query text"
+    - calls:
+        usage: "COUNTER"
+        description: "Number of executions"
+    - total_time:
+        usage: "GAUGE"
+        description: "Total execution + plan time"
+
+# 2. Top users by total execution time
+top_sql_users:
+  query: >
+    SELECT usename, SUM(total_exec_time + total_plan_time) AS total_exec_time
+    FROM pg_stat_statements
+    JOIN pg_user ON pg_stat_statements.userid = pg_user.usesysid
+    GROUP BY usename
+    ORDER BY total_exec_time DESC
+    LIMIT 5;
+  metrics:
+    - usename:
+        usage: "LABEL"
+        description: "PostgreSQL user"
+    - total_exec_time:
+        usage: "GAUGE"
+        description: "Total execution time by user"
+# 3. Top client IPs by connection count
+top_clients:
+  query: >
+    SELECT client_addr, COUNT(*) AS connections
+    FROM pg_stat_activity
+    WHERE client_addr IS NOT NULL
+    GROUP BY client_addr
+    ORDER BY connections DESC
+    LIMIT 5;
+  metrics:
+    - client_addr:
+        usage: "LABEL"
+        description: "Client IP address"
+    - connections:
+        usage: "GAUGE"
+        description: "Number of active connections"
+
+# 4. Currently running queries by user and IP
+active_queries_by_user_ip:
+  query: >
+    SELECT usename, client_addr, COUNT(*) as active_queries
+    FROM pg_stat_activity
+    WHERE state = 'active'
+    GROUP BY usename, client_addr;
+  metrics:
+    - usename:
+        usage: "LABEL"
+        description: "User running queries"
+    - client_addr:
+        usage: "LABEL"
+        description: "Client IP address"
+    - active_queries:
+        usage: "GAUGE"
+        description: "Number of currently active queries"
+
+# 5. Query frequency (most called)
+frequent_sql:
+  query: >
+    SELECT query, calls
+    FROM pg_stat_statements
+    ORDER BY calls DESC
+    LIMIT 5;
+  metrics:
+    - query:
+        usage: "LABEL"
+        description: "SQL query text"
+    - calls:
+        usage: "COUNTER"
+        description: "Number of executions"
