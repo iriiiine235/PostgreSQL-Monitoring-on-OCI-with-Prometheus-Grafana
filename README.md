@@ -132,7 +132,6 @@ nohup prometheus --config.file=/etc/prometheus/prometheus.yml > prometheus.log 2
 * Visit: `http://<instance_ip>:9090/targets`
 
 ![Prometheus Dashboard](images/Prometheus_dashboard.png)
-
 ---
 
 ### Step 12: Install Grafana
