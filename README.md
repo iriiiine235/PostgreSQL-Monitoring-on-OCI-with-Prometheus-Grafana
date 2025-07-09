@@ -129,8 +129,10 @@ nohup prometheus --config.file=/etc/prometheus/prometheus.yml > prometheus.log 2
 
 ### Step 11: Verify Targets
 
-Visit: `http://<instance_ip>:9090/targets`
-![Prometheus Dashboard](C:\Users\Irine\Documents\PostgreSQL-Monitoring-on-OCI-with-Prometheus-Grafana\images\Prometheus_dashboard.png)
+* Visit: `http://<instance_ip>:9090/targets`
+
+![Prometheus Dashboard](images\Prometheus_dashboard.png)
+
 ---
 
 ### Step 12: Install Grafana
@@ -153,17 +155,18 @@ sudo systemctl start grafana-server
 * Choose **Prometheus**
 * URL: `http://localhost:9090`
 
-![Adding Datasource](C:\Users\Irine\Documents\PostgreSQL-Monitoring-on-OCI-with-Prometheus-Grafana\images\Adding_Datasource.png)
+![Adding Datasource](images\Adding_Datasource.png)
 
 ### Step 15: Import PostgreSQL Dashboard
-![Import Postgres](C:\Users\Irine\Documents\PostgreSQL-Monitoring-on-OCI-with-Prometheus-Grafana\images\Import_PostgreSQL_dashboard.png)
+![Import Postgres](images\Import_PostgreSQL_dashboard.png)
+
 * Import dashboard ID: **9628** from Grafana Dashboards
 
 ### Step 16: Final Dashboards
 
-![Dashboard Example](C:\Users\Irine\Documents\PostgreSQL-Monitoring-on-OCI-with-Prometheus-Grafana\images\final_dashboard_1.png)
+![Dashboard Example](images\final_dashboard_1.png)
 
-![Dashboard Example](C:\Users\Irine\Documents\PostgreSQL-Monitoring-on-OCI-with-Prometheus-Grafana\images\final_dashboard_2.png)
+![Dashboard Example](images\final_dashboard_2.png)
 
 * View and customize metrics from your custom queries.yaml
 * Add visualizations for:
